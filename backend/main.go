@@ -1,11 +1,9 @@
 package main
 
 import (
-	//"ecommerce/cmd"
-	"fmt"
+	"ecommerce/cmd"
 )
 
 func main() {
-	//cmd.Serve()
-	fmt.Println("mifta")
+	cmd.Serve()
 }
