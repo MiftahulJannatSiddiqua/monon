@@ -35,3 +35,14 @@ func (svc *service) Find(email string, pass string) (*domain.User, error) {
 
 	return usr, nil
 }
+
+
+//==================
+
+func (svc *service) GetProfile(id int) (*domain.Profile, error) {
+	return svc.userRepo.GetProfile(id)
+}
+
+func (svc *service) UpdateProfile(id int, bio, city *string) error {
+	return svc.userRepo.UpdateProfile(id, bio, city)
+}

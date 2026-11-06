@@ -75,3 +75,37 @@ func (r *userRepo) Find(email, pass string) (*domain.User, error) {
 
 	return &user, nil
 }
+
+//===================
+func (r *userRepo) GetProfile(id int) (*domain.Profile, error) {
+	var p domain.Profile
+
+	query := `
+		SELECT id, first_name, last_name, email, bio, city, personality_type
+		FROM users
+		WHERE id = $1
+	`
+
+	err := r.db.Get(&p, query, id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		return nil, err
+	}
+
+	return &p, nil
+}
+
+func (r *userRepo) UpdateProfile(id int, bio, city *string) error {
+	query := `
+		UPDATE users
+		SET bio = COALESCE($2, bio),
+		    city = COALESCE($3, city),
+		    updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1
+	`
+
+	_, err := r.db.Exec(query, id, bio, city)
+	return err
+}
